@@ -1,10 +1,19 @@
+# Newsy App
+
+This is a RESTful Go API that returns top news articles from several tech news sources.
+
+It supports two endpoints currently:
+1. /crawl -- Crawls news sources and saves top news stories in MongoDB database
+2. /news -- Gets all top news stories saved in the MongoDB database and returns as JSON
+
+In the future, I would add a job or recurring task to regularly crawl for new articles (currently only works on-demand), and figure out a way to delete old news from the database and/or only return a certain number of articles.
+
 TODO:
 - limit number of responses for get news endpoint
 - add cacheing, and/or some way of checking when APIs were last crawled (add to the JSON?)
 - add a job that crawls the APIs on a recurring schedule (2x per day?) and removes old entries from DB
 - better error handling and logging
 - add tests
-- deploy!
 
 Questions for Consideration:
 - do we want an even mix of the news sources, maybe the latest 10 for each? if yes, return the appropriate json
