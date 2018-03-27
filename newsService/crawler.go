@@ -4,12 +4,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"os"
 	"strconv"
-
-	"github.com/joho/godotenv"
 )
 
 func getHackerNewsArticles() []Article {
@@ -59,10 +56,6 @@ func getHackerNewsTopIDs() []int {
 
 func getTechCrunchArticles() []Article {
 	articles := []Article{}
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
 	token := os.Getenv("TC_TOKEN")
 
 	m := TCArticles{}
@@ -87,10 +80,6 @@ func getTechCrunchArticles() []Article {
 
 func getNYTArticles() []Article {
 	articles := []Article{}
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
 	token := os.Getenv("NYT_TOKEN")
 
 	m := NYTArticles{}
@@ -100,6 +89,9 @@ func getNYTArticles() []Article {
 	}
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Println(err)
+	}
 	err = json.Unmarshal(body, &m)
 	if err != nil {
 		fmt.Println(err)
