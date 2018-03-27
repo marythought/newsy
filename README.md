@@ -14,4 +14,6 @@ Resources:
 - https://www.mongodb.com/blog/post/building-your-first-application-mongodb-creating-rest-api-using-mean-stack-part-1
 - http://www.blog.labouardy.com/build-restful-api-in-go-and-mongodb/
 - https://docs.mongodb.com/getting-started/shell/query/
+- https://godoc.org/labix.org/v2/mgo
 - https://medium.com/@IndianGuru/go-mongodb-mongolab-mgo-and-heroku-d411b5ac53f9
+- https://github.com/kardianos/govendor (required for Heroku)
