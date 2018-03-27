@@ -39,16 +39,17 @@ func (m *NewsyDAO) FindAll() ([]Article, error) {
 	return articles, err
 }
 
-func (m *NewsyDAO) FindById(id string) (Article, error) {
-	var article Article
-	err := db.C(COLLECTION).FindId(bson.ObjectIdHex(id)).One(&article)
-	if err != nil {
-		fmt.Println(err)
-	}
-	return article, err
-}
+// func (m *NewsyDAO) FindById(id string) (Article, error) {
+// 	var article Article
+// 	err := db.C(COLLECTION).FindId(bson.ObjectIdHex(id)).One(&article)
+// 	if err != nil {
+// 		fmt.Println(err)
+// 	}
+// 	return article, err
+// }
 
 func (m *NewsyDAO) Insert(article Article) error {
+	m.Connect()
 	err := db.C(COLLECTION).Insert(&article)
 	if err != nil {
 		fmt.Println(err)

@@ -16,13 +16,13 @@ func getHackerNewsArticles() []Article {
 	ids := getHackerNewsTopIDs()
 	var articles []Article
 	for _, art := range ids {
-		articles = append(articles, getHNArticle(strconv.Itoa(art)))
+		articles = append(articles, getHNArticle(strconv.Itoa(art)).toArticle())
 	}
 	return articles
 }
 
-func getHNArticle(id string) Article {
-	art := Article{Source: "HackerNews"}
+func getHNArticle(id string) HNArticle {
+	art := HNArticle{Source: "HackerNews"}
 	resp, err := http.Get("https://hacker-news.firebaseio.com/v0/item/" + id + ".json")
 	if err != nil {
 		fmt.Println(err)

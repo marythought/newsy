@@ -1,8 +1,9 @@
 package newsService
 
 import (
-	"encoding/json"
 	"net/http"
+
+	"gopkg.in/mgo.v2/bson"
 )
 
 // GetArticles is an endpoint that returns top articles from the db
@@ -21,21 +22,13 @@ func CrawlArticles(w http.ResponseWriter, r *http.Request) {
 	articles = append(articles, getTechCrunchArticles()...)
 	articles = append(articles, getNYTArticles()...)
 	// save articles in db
-	// delete old articles?
-	json.NewEncoder(w).Encode(articles)
+	for _, a := range articles {
+		a.ID = bson.NewObjectId()
+		if err := dao.Insert(a); err != nil {
+			respondWithError(w, http.StatusInternalServerError, err.Error())
+			return
+		}
+	}
+	// TODO: delete old articles?
+	respondWithJSON(w, http.StatusCreated, articles)
 }
-
-// func CreateArticle(w http.ResponseWriter, r *http.Request) {
-// 	defer r.Body.Close()
-// 	var movie Movie
-// 	if err := json.NewDecoder(r.Body).Decode(&movie); err != nil {
-// 		respondWithError(w, http.StatusBadRequest, "Invalid request payload")
-// 		return
-// 	}
-// 	movie.ID = bson.NewObjectId()
-// 	if err := dao.Insert(movie); err != nil {
-// 		respondWithError(w, http.StatusInternalServerError, err.Error())
-// 		return
-// 	}
-// 	respondWithJson(w, http.StatusCreated, movie)
-// }

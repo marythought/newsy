@@ -21,6 +21,20 @@ type NewsyDAO struct {
 	Database string
 }
 
+// HNArticle models the JSON of an article from HackerNews API
+type HNArticle struct {
+	Title  string `json:"title"`
+	Source string `json:"source"`
+	URL    string `json:"url"`
+}
+
+func (a HNArticle) toArticle() (art Article) {
+	art.Source = a.Source
+	art.Title = a.Title
+	art.URL = a.URL
+	return art
+}
+
 // TCArticles models the JSON of top articles from Tech Crunch API
 type TCArticles struct {
 	Status   string      `json:"status"`

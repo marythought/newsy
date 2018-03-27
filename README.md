@@ -7,3 +7,4 @@ TODO:
 
 Resources:
 - https://www.mongodb.com/blog/post/building-your-first-application-mongodb-creating-rest-api-using-mean-stack-part-1
+- http://www.blog.labouardy.com/build-restful-api-in-go-and-mongodb/

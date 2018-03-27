@@ -13,5 +13,6 @@ import (
 func main() {
 	router := mux.NewRouter()
 	router.HandleFunc("/news", newsService.GetArticles).Methods("GET")
+	router.HandleFunc("/crawl", newsService.CrawlArticles).Methods("GET")
 	log.Fatal(http.ListenAndServe(":8080", router))
 }
