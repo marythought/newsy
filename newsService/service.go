@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"time"
 
 	mgo "gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
@@ -55,11 +56,12 @@ func (m *NewsyDAO) insert(article Article) error {
 	return err
 }
 
-func (m *NewsyDAO) delete(article Article) error {
+// remove articles from the db 30+ days old
+func (m *NewsyDAO) deleteOld() (int, error) {
 	m.connect()
-	err := db.C(m.Database).Remove(&article)
+	info, err := db.C(m.Database).RemoveAll(bson.M{"time": bson.M{"$lt": time.Now().Add(-time.Hour * 24 * 30)}})
 	if err != nil {
 		fmt.Println(err)
 	}
-	return err
+	return info.Removed, err
 }

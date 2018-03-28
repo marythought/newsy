@@ -23,14 +23,25 @@ func CrawlArticles(w http.ResponseWriter, r *http.Request) {
 	articles := getHackerNewsArticles()
 	articles = append(articles, getTechCrunchArticles()...)
 	articles = append(articles, getNYTArticles()...)
-	err := insertArticles(articles)
+	count, err := insertArticles(articles)
 	if err != nil {
 		respondWithError(w, http.StatusInternalServerError, err.Error())
+		return
 	}
-	respondWithJSON(w, http.StatusCreated, articles)
+	respondWithJSON(w, http.StatusOK, count)
 }
 
-func insertArticles(articles []Article) error {
+// CleanDatabase is an endpoint that removes articles from the db 30+ days old
+func CleanDatabase(w http.ResponseWriter, r *http.Request) {
+	count, err := deleteOldArticles()
+	if err != nil {
+		respondWithError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+	respondWithJSON(w, http.StatusOK, count)
+}
+
+func insertArticles(articles []Article) (count int, err error) {
 	for _, a := range articles {
 		// don't save articles that have already been crawled
 		dups, _ := dao.findByURL(a.URL)
@@ -40,14 +51,15 @@ func insertArticles(articles []Article) error {
 		a.ID = bson.NewObjectId()
 		err := dao.insert(a)
 		if err != nil {
-			return err
+			return count, err
 		}
+		count++
 	}
-	return nil
+	return count, nil
 }
 
-func CleanArticles(w http.ResponseWriter, r *http.Request) {
-	// TODO: delete old articles?
+func deleteOldArticles() (int, error) {
+	return dao.deleteOld()
 }
 
 func respondWithError(w http.ResponseWriter, code int, msg string) {

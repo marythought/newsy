@@ -27,7 +27,8 @@ func main() {
 
 	router := mux.NewRouter()
 	router.HandleFunc("/news", newsService.GetArticles).Methods("GET", "OPTIONS")
-	router.HandleFunc("/crawl", newsService.CrawlArticles).Methods("GET")
+	router.HandleFunc("/crawl", newsService.CrawlArticles).Methods("GET", "OPTIONS")
+	router.HandleFunc("/clean", newsService.CleanDatabase).Methods("GET")
 	log.Printf("Now listening on TCP port %s", port)
 	log.Fatal(http.ListenAndServe(":"+port, router))
 }
