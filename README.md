@@ -3,8 +3,10 @@
 This is a RESTful Go API that returns top news articles from several tech news sources.
 
 It supports two endpoints currently:
-1. /crawl -- Crawls news sources and saves top news stories in MongoDB database
-2. /news -- Gets all top news stories saved in the MongoDB database and returns as JSON
+1. https://newsy-bits.herokuapp.com/crawl -- Crawls news sources and saves top news stories in MongoDB database
+2. https://newsy-bits.herokuapp.com/news -- Gets all top news stories saved in the MongoDB database and returns as JSON
+
+See it in action: http://www.marydickson.info/news
 
 In the future, I would add a job or recurring task to regularly crawl for new articles (currently only works on-demand), and figure out a way to delete old news from the database and/or only return a certain number of articles.
 
@@ -26,3 +28,4 @@ Resources:
 - https://godoc.org/labix.org/v2/mgo
 - https://medium.com/@IndianGuru/go-mongodb-mongolab-mgo-and-heroku-d411b5ac53f9
 - https://github.com/kardianos/govendor (required for Heroku)
+- https://github.com/michaeltreat/Mongo_quickstart
